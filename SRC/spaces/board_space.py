@@ -64,7 +64,7 @@ class board_space:
             logger.error(e)
             return false
 
-    def check_if_placeable(self, piece):
+    def test_placement(self, piece):
         """Verify whether or not a piece can be placed in the space."""
         #for default spaces, a piece can move there if there is not a like colored piece in the way; additionally, if there is an enemy piece, that piece is removed
         if not self.stored_pieces:
@@ -74,7 +74,7 @@ class board_space:
             #there should only ever be one piece in a default space; return false if its the same color as piece (can't land there), and true if it isn't (can capture opponent)
             return self.stored_pieces[0].get_color() != piece.get_color()
 
-    def check_if_capturable(self, piece):
+    def test_capture(self, piece):
         """Verify if a capture is possible in the space."""
         #for default spaces, one may capture an opposing piece if it occupies the space where one lands.
         if not self.stored_pieces:
