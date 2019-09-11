@@ -14,7 +14,7 @@ class rosette_space(board_space):
         #In all rulesets, a rosette space is "safe"; you cannot capture a piece on one, which in simplified Finkle rules means you cannot land on one if it is occupied.
         return not self.stored_pieces
 
-    def capture_opposite_piece(self, piece):
-        #In all rulesets we will support, one cannot capture a piece on a rosette.
-        logger.error("Attempted to capture a piece on a rosette. This is not possible.")
-        return false
+    # def capture_opposite_piece(self, piece):
+    #     #In all rulesets we will support, one cannot capture a piece on a rosette.
+    #     logger.error("Attempted to capture a piece on a rosette. This is not possible.")
+    #     return false
