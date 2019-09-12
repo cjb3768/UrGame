@@ -6,6 +6,7 @@ import enum
 ####################
 logger = logging.getLogger("urgame.space_type")
 
+@unique
 class space_type(Enum):
     ENTRY = 0
     EXIT = 1
@@ -48,7 +49,7 @@ class board_space:
                 self.flipped_next = next_space
             return true
         except Exception as e:
-            logger.error("While trying to construct the board, an exception of type {} has occurred".format(type(e).__name__))
+            logger.error("While trying to construct the path, an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
             return false
 
@@ -60,7 +61,7 @@ class board_space:
             else:
                 return self.flipped_next
         except Exception as e:
-            logger.error("While trying to traverse the board, an exception of type {} has occurred".format(type(e).__name__))
+            logger.error("While trying to traverse the path, an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
             return false
 
