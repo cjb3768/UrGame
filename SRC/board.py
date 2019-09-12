@@ -48,9 +48,61 @@ class board_state:
     def __init__(self):
         #instantiate our 3x9 array of board_spaces; we will actually fill it with board_space data later
         self.board = [[0 for j in range(9)] for i in range(3)]
+        self.flags = board_flags()
 
     def set_board_space(self, row, column, space):
         self.board[row][column] = space
 
-    def construct_board(self, board_flags):
-        pass
+    def construct_board(self):
+        #set entrance spaces
+        self.set_board_space(0, 5, entry_space())
+        self.set_board_space(2, 5, entry_space())
+
+        #set rosette spaces
+        self.set_board_space(0, 1, rosette_space())
+        self.set_board_space(0, 7, rosette_space())
+        self.set_board_space(1, 4, rosette_space())
+        self.set_board_space(2, 1, rosette_space())
+        self.set_board_space(2, 7, rosette_space())
+
+        #set null spaces
+        self.set_board_space(0, 0, null_space())
+        self.set_board_space(2, 0, null_space())
+
+        #set exit spaces based on path
+        if self.flags.path_type == self.ADVANCED:
+            #has only one exit at (1,0) and two extra null spaces at (0,6) and (2,6)
+            self.set_board_space(1, 0, exit_space())
+            self.set_board_space(0, 6, null_space())
+            self.set_board_space(2, 6, null_space())
+        else:
+            #both other paths have exits at (0,6) and (2,6) and an extra null space at (1,0)
+            self.set_board_space(0, 6, exit_space())
+            self.set_board_space(2, 6, exit_space())
+            self.set_board_space(1, 0, null_space())
+
+        #set foureyes spaces if enabled
+        if self.flags.foureyes:
+            #foureyes spaces at (0,2), (0,4), (1,7), (2,2), and (2,4)
+            pass
+
+        #set passage spaces if enabled
+        if self.flags.passage:
+            #passage spaces at (1,3) and (1,6)
+            pass
+
+        #set conversion spaces if enabled
+        if self.flags.conversion:
+            #conversion spaces at (0,8) and (2,8)
+            pass
+
+        #set foursquares space if enabled
+        if self.flags.foursquares:
+            #foursquares space at (1,1)
+            pass
+
+        #fill the rest of the board with unmarked spaces
+        for j in range(9):
+            for i in range(3):
+                if self.board[i][j] == 0:
+                    self.set_board_space(i, j, unmarked_space())
