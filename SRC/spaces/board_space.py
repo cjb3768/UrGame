@@ -36,17 +36,27 @@ class board_space:
     def __init__(self, space_type, board_symbol):
         self.space_type = space_type
         self.stored_pieces = {}
-        self.blank_next = None
-        self.flipped_next = None
+        self.dark_blank_next = None
+        self.light_blank_next = None
+        self.dark_flipped_next = None
+        self.light_flipped_next = None
         self.board_symbol = board_symbol;
 
-    def set_next_space(self, next_space, blank_state):
-        """Set the next space in the given path, based on the state of the piece"""
+    def set_next_space(self, next_space, path_color, blank_state):
+        """Set the next space in the given path, based on the color and state of the piece"""
         try:
-            if blank_state:
-                self.blank_next = next_space
+            #construct light path
+            if path_color:
+                if blank_state:
+                    self.light_blank_next = next_space
+                else:
+                    self.light_flipped_next = next_space
+            #construct dark path
             else:
-                self.flipped_next = next_space
+                if blank_state:
+                    self.dark_blank_next = next_space
+                else:
+                    self.dark_flipped_next = next_space
             return true
         except Exception as e:
             logger.error("While trying to construct the path, an exception of type {} has occurred".format(type(e).__name__))
@@ -54,12 +64,20 @@ class board_space:
             return false
 
     def get_next_space(self, piece):
-        """Get the next space in the given path, based on the state of the piece"""
+        """Get the next space in the given path, based on the color and state of the piece"""
         try:
-            if piece.get_state():
-                return self.blank_next
+            #traverse light path
+            if piece.get_color():
+                if piece.get_state():
+                    return self.light_blank_next
+                else:
+                    return self.light_flipped_next
+            #traverse dark path
             else:
-                return self.flipped_next
+                if piece.get_state():
+                    return self.dark_blank_next
+                else:
+                    return self.dark_flipped_next
         except Exception as e:
             logger.error("While trying to traverse the path, an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
