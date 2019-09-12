@@ -106,3 +106,23 @@ class board_state:
             for i in range(3):
                 if self.board[i][j] == 0:
                     self.set_board_space(i, j, unmarked_space())
+
+    def print_board(self):
+        top_bottom_row_edge = "   -----------------       ---------"
+        middle_row_edge = "   ---------------------------------"
+        row_string = ""
+
+        print(top_bottom_row_edge)
+        for i in range(3):
+            for j in range(9):
+                row_string = row_string + " {} ".format(self.board[i][j].board_symbol)
+                if self.board[i][j].space_type == space_type.ENTRY:
+                    row_string = row_string + " "
+                else:
+                    row_string = row_string + "|"
+
+            print(row_string)
+            if i < 2:
+                print(middle_row_edge)
+
+        print(top_bottom_row_edge)
