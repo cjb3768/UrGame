@@ -21,6 +21,10 @@ class null_space(board_space):
         #Null spaces should be inaccessible; throw an error
         raise NULL_SPACE_EXCEPTION
 
+    def test_advancement(self, piece):
+        #Null spaces should be inaccessible; throw an error
+        raise NULL_SPACE_EXCEPTION
+
     def test_placement(self, piece):
         #Null spaces should be inaccessible; throw an error
         raise NULL_SPACE_EXCEPTION

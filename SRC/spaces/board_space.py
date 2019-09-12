@@ -83,12 +83,17 @@ class board_space:
             logger.error(e)
             return false
 
+    def test_advancement(self, piece):
+        """Verify whether or not a piece can advance beyond this space."""
+        #for default spaces, there is no limitation preventing a piece from passing the space; return true
+        return True
+
     def test_placement(self, piece):
         """Verify whether or not a piece can be placed in the space."""
         #for default spaces, a piece can move there if there is not a like colored piece in the way; additionally, if there is an enemy piece, that piece is removed
         if not self.stored_pieces:
             #there are no pieces in the spot; we can place the piece
-            return true
+            return True
         else:
             #there should only ever be one piece in a default space; return false if its the same color as piece (can't land there), and true if it isn't (can capture opponent)
             return self.stored_pieces[0].get_color() != piece.get_color()
@@ -98,7 +103,7 @@ class board_space:
         #for default spaces, one may capture an opposing piece if it occupies the space where one lands.
         if not self.stored_pieces:
             #there are no pieces in the spot; we can't capture here
-            return false
+            return False
         else:
             #there is a piece in the space; return false if it is the same color as piece (can't capture own piece), and true if it is not (can capture)
             return self.stored_pieces[0].get_color() != piece.get_color()
