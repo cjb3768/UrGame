@@ -1,5 +1,5 @@
 import logging
-import board_space
+from SRC.SPACES.board_space import *
 
 ####################
 # Global variables #
@@ -8,7 +8,7 @@ logger = logging.getLogger("urgame.space_type.exit")
 
 class exit_space(board_space):
     def __init__(self):
-        super().__init__(self, space_type.EXIT, "f")
+        super().__init__(space_type.EXIT, "f")
 
     def test_placement(self, piece):
         #In all rulesets, pieces must land on an exit space to leave (it's one more than the last space on the board; landing on it is moving off), so return true

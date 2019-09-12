@@ -1,5 +1,5 @@
 import logging
-import enum
+from enum import Enum, unique, auto
 
 ####################
 # Global variables #

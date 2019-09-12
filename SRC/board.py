@@ -1,7 +1,13 @@
 import logging
-import enum
+from enum import Enum, unique, auto
 import sys
-import SPACES
+from SRC.SPACES.board_space import *
+from SRC.SPACES.entry_space import *
+from SRC.SPACES.exit_space import *
+from SRC.SPACES.null_space import *
+from SRC.SPACES.rosette_space import *
+from SRC.SPACES.unmarked_space import *
+
 
 ####################
 # Global variables #
@@ -17,11 +23,11 @@ class path_type(Enum):
 
 
 class board_flags:
-    def __init(self):
-        self.foureyes = false
-        self.passage = false
-        self.foursquares = false
-        self.conversion = false
+    def __init__(self):
+        self.foureyes = False
+        self.passage = False
+        self.foursquares = False
+        self.conversion = False
         self.path_type = path_type.SIMPLE
 
     def toggle_foureyes(self):
@@ -40,7 +46,7 @@ class board_flags:
         try:
             self.path_type = path_type(type)
         except Exception as e:
-            logger.error("While trying to construct the board, an exception of type {} has occurred".format(type(e).__name__))
+            logger.error("While trying to set the board's path type an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
 
 
@@ -58,19 +64,8 @@ class board_state:
         self.set_board_space(0, 5, entry_space())
         self.set_board_space(2, 5, entry_space())
 
-        #set rosette spaces
-        self.set_board_space(0, 1, rosette_space())
-        self.set_board_space(0, 7, rosette_space())
-        self.set_board_space(1, 4, rosette_space())
-        self.set_board_space(2, 1, rosette_space())
-        self.set_board_space(2, 7, rosette_space())
-
-        #set null spaces
-        self.set_board_space(0, 0, null_space())
-        self.set_board_space(2, 0, null_space())
-
         #set exit spaces based on path
-        if self.flags.path_type == self.ADVANCED:
+        if self.flags.path_type == path_type.ADVANCED:
             #has only one exit at (1,0) and two extra null spaces at (0,6) and (2,6)
             self.set_board_space(1, 0, exit_space())
             self.set_board_space(0, 6, null_space())
@@ -80,6 +75,17 @@ class board_state:
             self.set_board_space(0, 6, exit_space())
             self.set_board_space(2, 6, exit_space())
             self.set_board_space(1, 0, null_space())
+
+        #set remaining null spaces
+        self.set_board_space(0, 0, null_space())
+        self.set_board_space(2, 0, null_space())
+
+        #set rosette spaces
+        self.set_board_space(0, 1, rosette_space())
+        self.set_board_space(0, 7, rosette_space())
+        self.set_board_space(1, 4, rosette_space())
+        self.set_board_space(2, 1, rosette_space())
+        self.set_board_space(2, 7, rosette_space())
 
         #set foureyes spaces if enabled
         if self.flags.foureyes:
@@ -108,12 +114,14 @@ class board_state:
                     self.set_board_space(i, j, unmarked_space())
 
     def print_board(self):
+        print("Current board path type is {}".format(self.flags.path_type.name))
         top_bottom_row_edge = "   -----------------       ---------"
         middle_row_edge = "   ---------------------------------"
         row_string = ""
 
         print(top_bottom_row_edge)
         for i in range(3):
+            row_string = ""
             for j in range(9):
                 row_string = row_string + " {} ".format(self.board[i][j].board_symbol)
                 if self.board[i][j].space_type == space_type.ENTRY:

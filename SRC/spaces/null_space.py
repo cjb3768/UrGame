@@ -1,5 +1,5 @@
 import logging
-import board_space
+from SRC.SPACES.board_space import *
 
 ####################
 # Global variables #
@@ -11,7 +11,7 @@ class NULL_SPACE_EXCEPTION(Exception):
 
 class null_space(board_space):
     def __init__(self):
-        super().__init__(self, space_type.NULLSPACE, "X")
+        super().__init__(space_type.NULLSPACE, " ")
 
     def set_next_space(self, next_space, path_color, blank_state):
         #Null spaces should be inaccessible; throw an error
