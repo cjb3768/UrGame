@@ -22,6 +22,7 @@ class piece_type:
     def __init__(self, is_light, is_blank):
         self.color = is_light
         self.state = is_blank
+        self.must_convert = False
 
     def get_color(self):
         return color #returns true if this is a light piece and false if this is a dark piece
@@ -30,7 +31,15 @@ class piece_type:
         return state #returns true if blank, false if flipped
 
     def change_state(self):
-        self.state = false
+        #flip the piece
+        self.state = not self.state
+
+    def needs_converting(self):
+        return self.must_convert #a piece must convert if it has passed, but has not landed on, a conversion space, and attempts to pass another
+
+    def passed_conversion_space(self):
+        self.must_convert = True
+
 
 class board_space:
     def __init__(self, space_type, board_symbol):

@@ -16,7 +16,7 @@ class rosette_space(board_space):
 
     def test_capture(self, piece):
         #In all rulesets, a rosette space is "safe"; you cannot capture a piece on one, so we return false.
-        return false
+        return False
 
     # def capture_opposite_piece(self, piece):
     #     #In all rulesets we will support, one cannot capture a piece on a rosette.

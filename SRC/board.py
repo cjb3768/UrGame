@@ -4,9 +4,11 @@ import sys
 from SRC.SPACES.board_space import *
 from SRC.SPACES.entry_space import *
 from SRC.SPACES.exit_space import *
-from SRC.SPACES.null_space import *
-from SRC.SPACES.rosette_space import *
 from SRC.SPACES.unmarked_space import *
+from SRC.SPACES.rosette_space import *
+from SRC.SPACES.conversion_space import *
+from SRC.SPACES.null_space import *
+
 
 
 ####################
