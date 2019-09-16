@@ -77,11 +77,11 @@ class board_space:
                     self.dark_flipped_next = next_space
                 else:
                     pass
-            return true
+            return True
         except Exception as e:
             logger.error("While trying to construct the path, an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
-            return false
+            return False
 
     def get_next_space(self, piece):
         """Get the next space in the given path, based on the color and state of the piece"""

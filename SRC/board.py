@@ -10,7 +10,6 @@ from SRC.SPACES.conversion_space import *
 from SRC.SPACES.null_space import *
 
 
-
 ####################
 # Global variables #
 ####################
@@ -63,31 +62,31 @@ class board_state:
 
     def construct_board(self):
         #set entrance spaces
-        self.set_board_space(0, 5, entry_space())
-        self.set_board_space(2, 5, entry_space())
+        self.set_board_space(0, 5, entry_space((0,5)))
+        self.set_board_space(2, 5, entry_space((2,5)))
 
         #set exit spaces based on path
         if self.flags.path_type == path_type.ADVANCED:
             #has only one exit at (1,0) and two extra null spaces at (0,6) and (2,6)
-            self.set_board_space(1, 0, exit_space())
-            self.set_board_space(0, 6, null_space())
-            self.set_board_space(2, 6, null_space())
+            self.set_board_space(1, 0, exit_space((1,0)))
+            self.set_board_space(0, 6, null_space((0,6)))
+            self.set_board_space(2, 6, null_space((2,6)))
         else:
             #both other paths have exits at (0,6) and (2,6) and an extra null space at (1,0)
-            self.set_board_space(0, 6, exit_space())
-            self.set_board_space(2, 6, exit_space())
-            self.set_board_space(1, 0, null_space())
+            self.set_board_space(0, 6, exit_space((0,6)))
+            self.set_board_space(2, 6, exit_space((2,6)))
+            self.set_board_space(1, 0, null_space((1,0)))
 
         #set remaining null spaces
-        self.set_board_space(0, 0, null_space())
-        self.set_board_space(2, 0, null_space())
+        self.set_board_space(0, 0, null_space((0,0)))
+        self.set_board_space(2, 0, null_space((2,0)))
 
         #set rosette spaces
-        self.set_board_space(0, 1, rosette_space())
-        self.set_board_space(0, 7, rosette_space())
-        self.set_board_space(1, 4, rosette_space())
-        self.set_board_space(2, 1, rosette_space())
-        self.set_board_space(2, 7, rosette_space())
+        self.set_board_space(0, 1, rosette_space((0,1)))
+        self.set_board_space(0, 7, rosette_space((0,7)))
+        self.set_board_space(1, 4, rosette_space((1,4)))
+        self.set_board_space(2, 1, rosette_space((2,1)))
+        self.set_board_space(2, 7, rosette_space((2,7)))
 
         #set foureyes spaces if enabled
         if self.flags.foureyes:
@@ -102,8 +101,8 @@ class board_state:
         #set conversion spaces if enabled
         if self.flags.conversion:
             #conversion spaces at (0,8) and (2,8)
-            self.set_board_space(0, 8, conversion_space())
-            self.set_board_space(2, 8, conversion_space())
+            self.set_board_space(0, 8, conversion_space((0,8)))
+            self.set_board_space(2, 8, conversion_space((2,8)))
 
         #set foursquares space if enabled
         if self.flags.foursquares:
@@ -114,10 +113,11 @@ class board_state:
         for j in range(9):
             for i in range(3):
                 if self.board[i][j] == 0:
-                    self.set_board_space(i, j, unmarked_space())
+                    self.set_board_space(i, j, unmarked_space((i,j)))
 
-    def construct_path(self, path_type):
-        if path_type == path_type.SIMPLE:
+
+    def construct_path(self, pt):
+        if path_type(pt) == path_type.SIMPLE:
             #this is the simplified Finkle path; the only place the paths overlap is in the middle
 
             #construct light path (top path)
@@ -185,3 +185,125 @@ class board_state:
                 print(middle_row_edge)
 
         print(top_bottom_row_edge)
+
+    def print_path(self, path_color):
+        if path_color:
+            print("Light paths")
+
+            #we are on a light path; all light blank paths start at (0,5)
+            blank_starting_space = self.board[0][5]
+            flipped_starting_space = None
+            blank_step = blank_starting_space
+            path_string = ""
+
+            #print both light paths, starting with the blank one
+            try:
+                while blank_step:
+                    #use this same loop to find the start of the flipped path
+                    if not flipped_starting_space:
+                        if blank_step.light_flipped_next:
+                            flipped_starting_space = blank_step
+                        else:
+                            pass
+                    else:
+                        pass
+
+                    #add current space to path string
+                    path_string = path_string + "{} ".format(blank_step.board_position)
+                    #add an arrow if there is a next space
+                    if blank_step.light_blank_next:
+                        path_string = path_string + "-> "
+                    else:
+                        pass
+
+                    blank_step = blank_step.light_blank_next
+            except Exception as e:
+                logger.error("While trying to print the board's light blank path type an exception of type {} has occurred".format(type(e).__name__))
+                logger.error(e)
+
+            print("Blank path")
+            print(path_string)
+            path_string = ""
+
+            #now print the flipped path
+            flipped_step = flipped_starting_space
+
+            try:
+                while flipped_step:
+                    #add current space to path string
+                    path_string = path_string + "{} ".format(flipped_step.board_position)
+                    #add an arrow if there is a next space
+                    if flipped_step.light_flipped_next:
+                        path_string = path_string + "-> "
+                    else:
+                        pass
+
+                    flipped_step = flipped_step.light_flipped_next
+            except Exception as e:
+                logger.error("While trying to print the board's light flipped path type an exception of type {} has occurred".format(type(e).__name__))
+                logger.error(e)
+
+            print("Flipped Path")
+            print(path_string)
+            path_string = ""
+
+        else:
+            #handle dark paths
+            print("Dark paths")
+
+            #we are on a light path; all dark blank paths start at (2,5)
+            blank_starting_space = self.board[2][5]
+            flipped_starting_space = None
+            blank_step = blank_starting_space
+            path_string = ""
+
+            #print both light paths, starting with the blank one
+            try:
+                while blank_step:
+                    #use this same loop to find the start of the flipped path
+                    if not flipped_starting_space:
+                        if blank_step.dark_flipped_next:
+                            flipped_starting_space = blank_step
+                        else:
+                            pass
+                    else:
+                        pass
+
+                    #add current space to path string
+                    path_string = path_string + "{} ".format(blank_step.board_position)
+                    #add an arrow if there is a next space
+                    if blank_step.dark_blank_next:
+                        path_string = path_string + "-> "
+                    else:
+                        pass
+
+                    blank_step = blank_step.dark_blank_next
+            except Exception as e:
+                logger.error("While trying to print the board's dark blank path type an exception of type {} has occurred".format(type(e).__name__))
+                logger.error(e)
+
+            print("Blank path")
+            print(path_string)
+            path_string = ""
+
+            #now print the flipped path
+            flipped_step = flipped_starting_space
+
+            try:
+                while flipped_step:
+                    #add current space to path string
+                    path_string = path_string + "{} ".format(flipped_step.board_position)
+                    #add an arrow if there is a next space
+                    if flipped_step.dark_flipped_next:
+                        path_string = path_string + "-> "
+                    else:
+                        pass
+
+                    flipped_step = flipped_step.dark_flipped_next
+            except Exception as e:
+                logger.error("While trying to print the board's dark flipped path type an exception of type {} has occurred".format(type(e).__name__))
+                logger.error(e)
+
+            print("Flipped Path")
+            print(path_string)
+            path_string = ""

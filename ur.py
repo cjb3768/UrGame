@@ -21,9 +21,12 @@ def main():
     game_board = board.board_state()
     game_board.construct_board()
     game_board.print_board()
-    game_board.flags.set_path_type(board.path_type.ADVANCED)
-    game_board.construct_board()
-    game_board.print_board()
+    game_board.construct_path(0)
+    game_board.print_path(True)
+    game_board.print_path(False)
+    #game_board.flags.set_path_type(board.path_type.ADVANCED)
+    #game_board.construct_board()
+    #game_board.print_board()
 
 if __name__ == "__main__":
     main()
