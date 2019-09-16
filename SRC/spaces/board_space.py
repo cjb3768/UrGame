@@ -42,14 +42,15 @@ class piece_type:
 
 
 class board_space:
-    def __init__(self, space_type, board_symbol):
+    def __init__(self, space_type, board_symbol, board_position):
         self.space_type = space_type
         self.stored_pieces = {}
         self.dark_blank_next = None
         self.light_blank_next = None
         self.dark_flipped_next = None
         self.light_flipped_next = None
-        self.board_symbol = board_symbol;
+        self.board_symbol = board_symbol
+        self.board_position = board_position
 
     def set_next_space(self, next_space, path_color, blank_state, flipped_state):
         """Set the next space in the given path, based on the color and state of the piece"""

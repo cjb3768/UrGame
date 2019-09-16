@@ -7,5 +7,5 @@ from SRC.SPACES.board_space import *
 logger = logging.getLogger("urgame.space_type.unmarked")
 
 class unmarked_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.UNMARKED, "-")
+    def __init__(self, board_position):
+        super().__init__(space_type.UNMARKED, "-", board_position)

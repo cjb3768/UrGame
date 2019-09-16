@@ -7,8 +7,8 @@ from SRC.SPACES.board_space import *
 logger = logging.getLogger("urgame.space_type.entry")
 
 class entry_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.ENTRY, "e")
+    def __init__(self, board_position):
+        super().__init__(space_type.ENTRY, "e", board_position)
 
     def test_placement(self, piece):
         #In all rulesets, pieces do not land on entry spaces; return false

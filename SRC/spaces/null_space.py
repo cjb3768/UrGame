@@ -10,8 +10,8 @@ class NULL_SPACE_EXCEPTION(Exception):
     pass
 
 class null_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.NULLSPACE, " ")
+    def __init__(self, board_position):
+        super().__init__(space_type.NULLSPACE, " ", board_position)
 
     def set_next_space(self, next_space, path_color, blank_state, flipped_state):
         #Null spaces should be inaccessible; throw an error

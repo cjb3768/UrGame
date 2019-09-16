@@ -7,8 +7,8 @@ from SRC.SPACES.board_space import *
 logger = logging.getLogger("urgame.space_type.exit")
 
 class exit_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.EXIT, "f")
+    def __init__(self, board_position):
+        super().__init__(space_type.EXIT, "f", board_position)
 
     def test_advancement(self, piece):
         #One cannot advance past an exit. Return false

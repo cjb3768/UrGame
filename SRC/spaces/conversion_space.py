@@ -7,8 +7,8 @@ from SRC.SPACES.board_space import *
 logger = logging.getLogger("urgame.space_type.conversion")
 
 class conversion_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.CONVERSION, "c")
+    def __init__(self, board_position):
+        super().__init__(space_type.CONVERSION, "c", board_position)
 
     def test_advancement(self, piece):
         #When a conversion space is on the board, a player must land on one conversion space before advancing past a second.

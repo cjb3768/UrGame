@@ -7,8 +7,8 @@ from SRC.SPACES.board_space import *
 logger = logging.getLogger("urgame.space_type.rosette")
 
 class rosette_space(board_space):
-    def __init__(self):
-        super().__init__(space_type.ROSETTE, "r")
+    def __init__(self, board_position):
+        super().__init__(space_type.ROSETTE, "r", board_position)
 
     def test_placement(self, piece):
         #In all rulesets, a rosette space is "safe"; you cannot capture a piece on one, which in simplified Finkle rules means you cannot land on one if it is occupied.
