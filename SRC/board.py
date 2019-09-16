@@ -117,77 +117,31 @@ class board_state:
 
 
     def construct_path(self, pt):
-        if path_type(pt) == path_type.SIMPLE:
-            #this is the simplified Finkle path; the only place the paths overlap is in the middle
+        try:
+            if path_type(pt) == path_type.SIMPLE:
+                path_file = open("SRC/simple.txt","r")
+            elif path_type(pt) == path_type.MEDIUM:
+                path_file = open("SRC/medium.txt","r")
+            elif path_type(pt) == path_type.ADVANCED:
+                path_file = open("SRC/advanced.txt","r")
+            else:
+                pass
+        except Exception as e:
+            logger.error("While trying to open the file for a given path type an exception of type {} has occurred".format(type(e).__name__))
+            logger.error(e)
+            return
 
-            #construct light path (top path)
-            #linking starting strip
-            self.board[0][5].set_next_space(self.board[0][4], True, True, True)
-            self.board[0][4].set_next_space(self.board[0][3], True, True, True)
-            self.board[0][3].set_next_space(self.board[0][2], True, True, True)
-            self.board[0][2].set_next_space(self.board[0][1], True, True, True)
-            #linking warzone spaces
-            self.board[0][1].set_next_space(self.board[1][1], True, True, True)
-            self.board[1][1].set_next_space(self.board[1][2], True, True, True)
-            self.board[1][2].set_next_space(self.board[1][3], True, True, True)
-            self.board[1][3].set_next_space(self.board[1][4], True, True, True)
-            self.board[1][4].set_next_space(self.board[1][5], True, True, True)
-            self.board[1][5].set_next_space(self.board[1][6], True, True, True)
-            self.board[1][6].set_next_space(self.board[1][7], True, True, True)
-            self.board[1][7].set_next_space(self.board[1][8], True, True, True)
-            #linking ending strip
-            self.board[1][8].set_next_space(self.board[0][8], True, True, True)
-            self.board[0][8].set_next_space(self.board[0][7], True, True, True)
-            self.board[0][7].set_next_space(self.board[0][6], True, True, True)
-
-            #constructing dark path (bottom path)
-            #linking starting strip
-            self.board[2][5].set_next_space(self.board[2][4], False, True, True)
-            self.board[2][4].set_next_space(self.board[2][3], False, True, True)
-            self.board[2][3].set_next_space(self.board[2][2], False, True, True)
-            self.board[2][2].set_next_space(self.board[2][1], False, True, True)
-            #linking warzone spaces
-            self.board[2][1].set_next_space(self.board[1][1], False, True, True)
-            self.board[1][1].set_next_space(self.board[1][2], False, True, True)
-            self.board[1][2].set_next_space(self.board[1][3], False, True, True)
-            self.board[1][3].set_next_space(self.board[1][4], False, True, True)
-            self.board[1][4].set_next_space(self.board[1][5], False, True, True)
-            self.board[1][5].set_next_space(self.board[1][6], False, True, True)
-            self.board[1][6].set_next_space(self.board[1][7], False, True, True)
-            self.board[1][7].set_next_space(self.board[1][8], False, True, True)
-            #linking ending strip
-            self.board[1][8].set_next_space(self.board[2][8], False, True, True)
-            self.board[2][8].set_next_space(self.board[2][7], False, True, True)
-            self.board[2][7].set_next_space(self.board[2][6], False, True, True)
-
-        elif path_type(pt) == path_type.ADVANCED:
-            path_file = open("SRC/medium.txt","r")
+        try:
             num_path_steps = int(path_file.readline())
             #iterate over the next num_path_steps lines of file, constructing light paths
             for i in range(num_path_steps):
                 next_line = path_file.readline()
                 start_row, start_col, next_row, next_col, color, blank_link, flipped_link = next_line.split(",")
-                #print("current space ({},{}), next space({},{}), color:{}, blank:{}, flipped:{}".format(start_row, start_col, next_row, next_col, color, blank_link, flipped_link))
-                #print(self.board[int(start_row)][int(start_col)].light_blank_next)
-                #print(self.board[int(start_row)][int(start_col)].light_flipped_next)
-                #print(self.board[int(start_row)][int(start_col)].dark_blank_next)
-                #print(self.board[int(start_row)][int(start_col)].dark_flipped_next)
-                #print("++")
                 self.board[int(start_row)][int(start_col)].set_next_space(self.board[int(next_row)][int(next_col)], eval(color), eval(blank_link), eval(flipped_link))
-                #print("??")
-                #print(self.board[int(start_row)][int(start_col)].light_blank_next)
-                #print(self.board[int(start_row)][int(start_col)].light_flipped_next)
-                #print(self.board[int(start_row)][int(start_col)].dark_blank_next)
-                #print(self.board[int(start_row)][int(start_col)].dark_flipped_next)
-                #print("--")
-            #print("jsut a space")
-
-            #for j in range(num_path_steps):
-            #    start_row, start_col, next_row, next_col, color, blank_link, flipped_link = path_file.readline().split(",")
-            #    print("({},{})".format(start_row, start_col))
-            #    self.board[int(start_row)][int(start_col)].set_next_space(self.board[int(next_row)][int(next_col)], color, blank_link, flipped_link)
-        else:
-            pass
+        except Exception as e:
+            logger.error("While trying to load a path from file an exception of type {} has occurred".format(type(e).__name__))
+            logger.error(e)
+            return            
 
 
     def print_board(self):
