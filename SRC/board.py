@@ -102,7 +102,8 @@ class board_state:
         #set conversion spaces if enabled
         if self.flags.conversion:
             #conversion spaces at (0,8) and (2,8)
-            pass
+            self.set_board_space(0, 8, conversion_space())
+            self.set_board_space(2, 8, conversion_space())
 
         #set foursquares space if enabled
         if self.flags.foursquares:
