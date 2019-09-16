@@ -57,24 +57,30 @@ class board_space:
         try:
             #construct light path
             if path_color:
+                #print(blank_state)
                 if blank_state:
                     self.light_blank_next = next_space
+                    #print("Assigned current space with new blank next space {}, which should be the same as {}".format(self.light_blank_next.board_position, next_space.board_position))
                 else:
                     pass
 
+                #print(flipped_state)
                 if flipped_state:
                     self.light_flipped_next = next_space
+                    #print("Assigned current space with new flipped next space {}, which should be the same as {}".format(self.light_flipped_next.board_position, next_space.board_position))
                 else:
                     pass
             #construct dark path
             else:
                 if blank_state:
                     self.dark_blank_next = next_space
+                    #print("Assigned current space with new blank next space {}, which should be the same as {}".format(self.dark_blank_next.board_position, next_space.board_position))
                 else:
                     pass
 
                 if flipped_state:
                     self.dark_flipped_next = next_space
+                    #print("Assigned current space with new flipped next space {}, which should be the same as {}".format(self.dark_flipped_next.board_position, next_space.board_position))
                 else:
                     pass
             return True

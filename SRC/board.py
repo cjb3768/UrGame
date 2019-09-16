@@ -160,6 +160,32 @@ class board_state:
             self.board[2][8].set_next_space(self.board[2][7], False, True, True)
             self.board[2][7].set_next_space(self.board[2][6], False, True, True)
 
+        elif path_type(pt) == path_type.ADVANCED:
+            path_file = open("SRC/medium.txt","r")
+            num_path_steps = int(path_file.readline())
+            #iterate over the next num_path_steps lines of file, constructing light paths
+            for i in range(num_path_steps):
+                next_line = path_file.readline()
+                start_row, start_col, next_row, next_col, color, blank_link, flipped_link = next_line.split(",")
+                #print("current space ({},{}), next space({},{}), color:{}, blank:{}, flipped:{}".format(start_row, start_col, next_row, next_col, color, blank_link, flipped_link))
+                #print(self.board[int(start_row)][int(start_col)].light_blank_next)
+                #print(self.board[int(start_row)][int(start_col)].light_flipped_next)
+                #print(self.board[int(start_row)][int(start_col)].dark_blank_next)
+                #print(self.board[int(start_row)][int(start_col)].dark_flipped_next)
+                #print("++")
+                self.board[int(start_row)][int(start_col)].set_next_space(self.board[int(next_row)][int(next_col)], eval(color), eval(blank_link), eval(flipped_link))
+                #print("??")
+                #print(self.board[int(start_row)][int(start_col)].light_blank_next)
+                #print(self.board[int(start_row)][int(start_col)].light_flipped_next)
+                #print(self.board[int(start_row)][int(start_col)].dark_blank_next)
+                #print(self.board[int(start_row)][int(start_col)].dark_flipped_next)
+                #print("--")
+            #print("jsut a space")
+
+            #for j in range(num_path_steps):
+            #    start_row, start_col, next_row, next_col, color, blank_link, flipped_link = path_file.readline().split(",")
+            #    print("({},{})".format(start_row, start_col))
+            #    self.board[int(start_row)][int(start_col)].set_next_space(self.board[int(next_row)][int(next_col)], color, blank_link, flipped_link)
         else:
             pass
 
@@ -201,7 +227,8 @@ class board_state:
                 while blank_step:
                     #use this same loop to find the start of the flipped path
                     if not flipped_starting_space:
-                        if blank_step.light_flipped_next:
+                        if blank_step.light_flipped_next and not blank_step.light_blank_next:
+                            #flipped_starting_space = self.board[blank_step.board_position[0]][blank_step.board_position[1]]
                             flipped_starting_space = blank_step
                         else:
                             pass
@@ -226,6 +253,8 @@ class board_state:
             path_string = ""
 
             #now print the flipped path
+            if not flipped_starting_space:
+                flipped_starting_space = blank_starting_space
             flipped_step = flipped_starting_space
 
             try:
@@ -262,7 +291,7 @@ class board_state:
                 while blank_step:
                     #use this same loop to find the start of the flipped path
                     if not flipped_starting_space:
-                        if blank_step.dark_flipped_next:
+                        if blank_step.dark_flipped_next and not blank_step.dark_blank_next:
                             flipped_starting_space = blank_step
                         else:
                             pass
@@ -287,6 +316,8 @@ class board_state:
             path_string = ""
 
             #now print the flipped path
+            if not flipped_starting_space:
+                flipped_starting_space = blank_starting_space
             flipped_step = flipped_starting_space
 
             try:
