@@ -51,7 +51,7 @@ class board_space:
         self.light_flipped_next = None
         self.board_symbol = board_symbol;
 
-    def set_next_space(self, next_space, path_color, blank_state):
+    def set_next_space(self, next_space, path_color, blank_state, flipped_state):
         """Set the next space in the given path, based on the color and state of the piece"""
         try:
             #construct light path
@@ -59,13 +59,23 @@ class board_space:
                 if blank_state:
                     self.light_blank_next = next_space
                 else:
+                    pass
+
+                if flipped_state:
                     self.light_flipped_next = next_space
+                else:
+                    pass
             #construct dark path
             else:
                 if blank_state:
                     self.dark_blank_next = next_space
                 else:
+                    pass
+
+                if flipped_state:
                     self.dark_flipped_next = next_space
+                else:
+                    pass
             return true
         except Exception as e:
             logger.error("While trying to construct the path, an exception of type {} has occurred".format(type(e).__name__))

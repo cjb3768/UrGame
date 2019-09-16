@@ -13,7 +13,7 @@ class null_space(board_space):
     def __init__(self):
         super().__init__(space_type.NULLSPACE, " ")
 
-    def set_next_space(self, next_space, path_color, blank_state):
+    def set_next_space(self, next_space, path_color, blank_state, flipped_state):
         #Null spaces should be inaccessible; throw an error
         raise NULL_SPACE_EXCEPTION
 

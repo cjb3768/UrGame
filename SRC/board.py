@@ -115,6 +115,54 @@ class board_state:
                 if self.board[i][j] == 0:
                     self.set_board_space(i, j, unmarked_space())
 
+    def construct_path(self, path_type):
+        if path_type == path_type.SIMPLE:
+            #this is the simplified Finkle path; the only place the paths overlap is in the middle
+
+            #construct light path (top path)
+            #linking starting strip
+            self.board[0][5].set_next_space(self.board[0][4], True, True, True)
+            self.board[0][4].set_next_space(self.board[0][3], True, True, True)
+            self.board[0][3].set_next_space(self.board[0][2], True, True, True)
+            self.board[0][2].set_next_space(self.board[0][1], True, True, True)
+            #linking warzone spaces
+            self.board[0][1].set_next_space(self.board[1][1], True, True, True)
+            self.board[1][1].set_next_space(self.board[1][2], True, True, True)
+            self.board[1][2].set_next_space(self.board[1][3], True, True, True)
+            self.board[1][3].set_next_space(self.board[1][4], True, True, True)
+            self.board[1][4].set_next_space(self.board[1][5], True, True, True)
+            self.board[1][5].set_next_space(self.board[1][6], True, True, True)
+            self.board[1][6].set_next_space(self.board[1][7], True, True, True)
+            self.board[1][7].set_next_space(self.board[1][8], True, True, True)
+            #linking ending strip
+            self.board[1][8].set_next_space(self.board[0][8], True, True, True)
+            self.board[0][8].set_next_space(self.board[0][7], True, True, True)
+            self.board[0][7].set_next_space(self.board[0][6], True, True, True)
+
+            #constructing dark path (bottom path)
+            #linking starting strip
+            self.board[2][5].set_next_space(self.board[2][4], False, True, True)
+            self.board[2][4].set_next_space(self.board[2][3], False, True, True)
+            self.board[2][3].set_next_space(self.board[2][2], False, True, True)
+            self.board[2][2].set_next_space(self.board[2][1], False, True, True)
+            #linking warzone spaces
+            self.board[2][1].set_next_space(self.board[1][1], False, True, True)
+            self.board[1][1].set_next_space(self.board[1][2], False, True, True)
+            self.board[1][2].set_next_space(self.board[1][3], False, True, True)
+            self.board[1][3].set_next_space(self.board[1][4], False, True, True)
+            self.board[1][4].set_next_space(self.board[1][5], False, True, True)
+            self.board[1][5].set_next_space(self.board[1][6], False, True, True)
+            self.board[1][6].set_next_space(self.board[1][7], False, True, True)
+            self.board[1][7].set_next_space(self.board[1][8], False, True, True)
+            #linking ending strip
+            self.board[1][8].set_next_space(self.board[2][8], False, True, True)
+            self.board[2][8].set_next_space(self.board[2][7], False, True, True)
+            self.board[2][7].set_next_space(self.board[2][6], False, True, True)
+
+        else:
+            pass
+
+
     def print_board(self):
         print("Current board path type is {}".format(self.flags.path_type.name))
         top_bottom_row_edge = "   -----------------       ---------"
