@@ -24,11 +24,11 @@ class path_type(Enum):
 
 
 class board_flags:
-    def __init__(self, foure = False, pasg = False, fours = False, conv = False, path = path_type.SIMPLE):
-        self.foureyes = foure
-        self.passage = pasg
-        self.foursquares = fours
-        self.conversion = conv
+    def __init__(self, foureyes = False, passage = False, foursquares = False, conversion = False, path = path_type.SIMPLE):
+        self.foureyes = foureyes
+        self.passage = passage
+        self.foursquares = foursquares
+        self.conversion = conversion
         self.path_type = path
 
     def toggle_foureyes(self):
@@ -56,9 +56,14 @@ class board_state:
         #instantiate our 3x9 array of board_spaces; we will actually fill it with board_space data later
         self.board = board
         self.flags = flags
+        self.light_piece_list = []
+        self.dark_piece_list = []
 
     def set_board_space(self, row, column, space):
         self.board[row][column] = space
+
+    def set_flags(self, flags):
+        self.flags = flags
 
     def construct_board(self):
         #set entrance spaces
@@ -115,13 +120,13 @@ class board_state:
                 if self.board[i][j] == 0:
                     self.set_board_space(i, j, unmarked_space((i,j)))
 
-    def construct_path(self, pt):
+    def construct_path(self):
         try:
-            if path_type(pt) == path_type.SIMPLE:
+            if self.flags.path_type == path_type.SIMPLE:
                 path_file = open("src/simple.txt","r")
-            elif path_type(pt) == path_type.MEDIUM:
+            elif self.flags.path_type == path_type.MEDIUM:
                 path_file = open("src/medium.txt","r")
-            elif path_type(pt) == path_type.ADVANCED:
+            elif self.flags.path_type == path_type.ADVANCED:
                 path_file = open("src/advanced.txt","r")
             else:
                 pass
@@ -152,8 +157,44 @@ class board_state:
         for i in range(3):
             row_string = ""
             for j in range(9):
-                row_string = row_string + " {} ".format(self.board[i][j].board_symbol)
-                if self.board[i][j].space_type == space_type.ENTRY:
+                current_space = self.board[i][j]
+                #print the contents of a space
+                #check to see if there are any pieces on the board
+                if not current_space.stored_pieces:
+                    #no pieces on the space, add the space's board symbol to the printout
+                    row_string = row_string + " {} ".format(current_space.board_symbol)
+                else:
+                    #the space has at least one piece in it
+                    #if its an entry space, print how many pieces are still in it
+                    if current_space.space_type == space_type.ENTRY:
+                        row_string = row_string + " {} ".format(len(current_space.stored_pieces))
+                    #if its an exit space, print how many pieces are in it of each color (light/dark)
+                    elif current_space.space_type == space_type.EXIT:
+                        row_string = row_string + "{}/{}".format(current_space.count_pieces(True), current_space.count_pieces(False))
+                    #for any other space, check how many pieces there are
+                    else:
+                        if len(current_space.stored_pieces) == 1:
+                            #only one piece; determine it's color and state
+                            if current_space.stored_pieces[0].get_color():
+                                #light piece
+                                if current_space.stored_pieces[0].get_state():
+                                    #blank piece
+                                    row_string = row_string + " l "
+                                else:
+                                    #flipped piece
+                                    row_string = row_string + " L "
+                            else:
+                                #dark piece
+                                if current_space.stored_pieces[0].get_state():
+                                    #blank piece
+                                    row_string = row_string + " d "
+                                else:
+                                    #flipped piece
+                                    row_string = row_string + " D "
+
+
+                #print the right edge of the space
+                if current_space.space_type == space_type.ENTRY:
                     row_string = row_string + " "
                 else:
                     row_string = row_string + "|"

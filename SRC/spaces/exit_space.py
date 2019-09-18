@@ -21,3 +21,11 @@ class exit_space(board_space):
     def test_capture(self, piece):
         #There is no way to land on an opponent's piece off the board, so return false
         return False
+
+    def count_pieces(self, piece_color):
+        #count all the pieces of a given color
+        piece_count = 0
+        for i in range(len(self.stored_pieces)):
+            if self.stored_pieces[i].get_color() == piece_color:
+                piece_count = piece_count + 1
+        return piece_count

@@ -25,10 +25,10 @@ class piece_type:
         self.must_convert = False
 
     def get_color(self):
-        return color #returns true if this is a light piece and false if this is a dark piece
+        return self.color #returns true if this is a light piece and false if this is a dark piece
 
     def get_state(self):
-        return state #returns true if blank, false if flipped
+        return self.state #returns true if blank, false if flipped
 
     def change_state(self):
         #flip the piece
@@ -44,7 +44,7 @@ class piece_type:
 class board_space:
     def __init__(self, space_type, board_symbol, board_position):
         self.space_type = space_type
-        self.stored_pieces = {}
+        self.stored_pieces = []
         self.dark_blank_next = None
         self.light_blank_next = None
         self.dark_flipped_next = None

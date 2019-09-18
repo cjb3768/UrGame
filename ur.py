@@ -19,7 +19,7 @@ def main():
     game_board = board_state()
     game_board.construct_board()
     game_board.print_board()
-    game_board.construct_path(0)
+    game_board.construct_path()
     game_board.print_path(True)
     game_board.print_path(False)
     #game_board.flags.set_path_type(board.path_type.ADVANCED)
@@ -31,6 +31,8 @@ def main():
     print("Rolling dice: {}".format(ur_game.roll_dice()))
     print("Rolling dice: {}".format(ur_game.roll_dice()))
     print("Rolling dice: {}".format(ur_game.roll_dice()))
+    ur_game.instantiate_board()
+    ur_game.board_state.print_board()
 
 if __name__ == "__main__":
     main()
