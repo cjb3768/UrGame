@@ -1,5 +1,5 @@
 import logging
-from SRC.SPACES.board_space import *
+from src.spaces.board_space import *
 
 ####################
 # Global variables #
