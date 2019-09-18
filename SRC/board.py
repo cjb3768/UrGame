@@ -24,12 +24,12 @@ class path_type(Enum):
 
 
 class board_flags:
-    def __init__(self):
-        self.foureyes = False
-        self.passage = False
-        self.foursquares = False
-        self.conversion = False
-        self.path_type = path_type.SIMPLE
+    def __init__(self, foure = False, pasg = False, fours = False, conv = False, path = path_type.SIMPLE):
+        self.foureyes = foure
+        self.passage = pasg
+        self.foursquares = fours
+        self.conversion = conv
+        self.path_type = path
 
     def toggle_foureyes(self):
         self.foureyes = not self.foureyes

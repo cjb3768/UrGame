@@ -1,5 +1,6 @@
 import logging
-from board import *
+import random
+from src.board import *
 
 ####################
 # Global variables #
@@ -7,10 +8,11 @@ from board import *
 logger = logging.getLogger("urgame.game")
 
 class game_flags:
-    def __init__(self):
-        pass
+    def __init__(self, n_dice = 4, brd_flags = board_flags()):
+        self.num_dice = n_dice
+        self.board_flags = brd_flags
 
-class game:
+class game_class:
     def __init__(self, flags=game_flags()):
         self.flags = flags
 
@@ -33,3 +35,12 @@ class game:
             #if so, remove opposing piece, add a new piece to it's starting space
         #determine who gets next turn (typically other player, but in some cases a player gets an extra turn)
         pass
+
+    def roll_dice(self):
+        dice_score = 0
+
+        #seed random number generator
+        random.seed()
+        for i in range(self.flags.num_dice):
+            dice_score = dice_score + random.randint(0,1)
+        return dice_score

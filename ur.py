@@ -1,6 +1,7 @@
 import logging
 import sys
-from src import board
+from src.board import *
+from src.game import *
 
 ####################
 # Global variables #
@@ -15,10 +16,7 @@ def main():
     #set logging level to output all messages of DEBUG level or higher
     logging.basicConfig(level=logging.DEBUG)
 
-    #print hello world
-    logger.debug("Hello world")
-
-    game_board = board.board_state()
+    game_board = board_state()
     game_board.construct_board()
     game_board.print_board()
     game_board.construct_path(0)
@@ -27,6 +25,12 @@ def main():
     #game_board.flags.set_path_type(board.path_type.ADVANCED)
     #game_board.construct_board()
     #game_board.print_board()
+
+    ur_game = game_class()
+    print("Rolling dice: {}".format(ur_game.roll_dice()))
+    print("Rolling dice: {}".format(ur_game.roll_dice()))
+    print("Rolling dice: {}".format(ur_game.roll_dice()))
+    print("Rolling dice: {}".format(ur_game.roll_dice()))
 
 if __name__ == "__main__":
     main()
