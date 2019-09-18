@@ -56,11 +56,39 @@ class board_state:
         #instantiate our 3x9 array of board_spaces; we will actually fill it with board_space data later
         self.board = board
         self.flags = flags
+        self.light_entry = None
+        self.light_exit = None
+        self.dark_entry = None
+        self.dark_exit = None
         self.light_piece_list = []
         self.dark_piece_list = []
 
     def set_board_space(self, row, column, space):
         self.board[row][column] = space
+
+    def set_player_entry(self, row, column, color):
+        if color:
+            self.light_entry = self.board[row][column]
+        else:
+            self.dark_entry = self.board[row][column]
+
+    def set_player_exit(self, row, column, color):
+        if color:
+            self.light_exit = self.board[row][column]
+        else:
+            self.dark_exit = self.board[row][column]
+
+    def get_player_entry(self, color):
+        if color:
+            return self.light_entry
+        else:
+            return self.dark_entry
+
+    def get_player_exit(self, color):
+        if color:
+            return self.light_exit
+        else:
+            return self.dark_exit
 
     def set_flags(self, flags):
         self.flags = flags
@@ -69,6 +97,9 @@ class board_state:
         #set entrance spaces
         self.set_board_space(0, 5, entry_space((0,5)))
         self.set_board_space(2, 5, entry_space((2,5)))
+        #tag entrance spaces
+        self.set_player_entry(0, 5, True)
+        self.set_player_entry(2, 5, False)
 
         #set exit spaces based on path
         if self.flags.path_type == path_type.ADVANCED:
@@ -76,11 +107,17 @@ class board_state:
             self.set_board_space(1, 0, exit_space((1,0)))
             self.set_board_space(0, 6, null_space((0,6)))
             self.set_board_space(2, 6, null_space((2,6)))
+            #tag exit space
+            self.set_player_exit(1, 0, True)
+            self.set_player_exit(1, 0, False)
         else:
             #both other paths have exits at (0,6) and (2,6) and an extra null space at (1,0)
             self.set_board_space(0, 6, exit_space((0,6)))
             self.set_board_space(2, 6, exit_space((2,6)))
             self.set_board_space(1, 0, null_space((1,0)))
+            #tag exit spaces
+            self.set_player_exit(0, 6, True)
+            self.set_player_exit(2, 6, False)
 
         #set remaining null spaces
         self.set_board_space(0, 0, null_space((0,0)))
