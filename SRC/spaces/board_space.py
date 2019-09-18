@@ -40,6 +40,18 @@ class piece_type:
     def passed_conversion_space(self):
         self.must_convert = True
 
+    def __str__(self):
+        #return a symbol based on the color and state of the piece
+        if self.get_color():
+            if self.get_state():
+                return "l"
+            else:
+                return "L"
+        else:
+            if self.get_state():
+                return "d"
+            else:
+                return "D"
 
 class board_space:
     def __init__(self, space_type, board_symbol, board_position):
@@ -133,6 +145,17 @@ class board_space:
         else:
             #there is a piece in the space; return false if it is the same color as piece (can't capture own piece), and true if it is not (can capture)
             return self.stored_pieces[0].get_color() != piece.get_color()
+
+    def __str__(self):
+        #define a string function for a given space to print what the space looks like
+        if not len(self.stored_pieces):
+            #there are no pieces here; return it's board symbol with spaces
+            return " {} ".format(self.board_symbol)
+        else:
+            #there should only ever be one piece in a generic space
+            return " {} ".format(self.stored_pieces[0])
+
+
 
 
     # def place_piece(self, piece):

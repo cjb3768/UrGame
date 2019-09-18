@@ -29,3 +29,12 @@ class exit_space(board_space):
             if self.stored_pieces[i].get_color() == piece_color:
                 piece_count = piece_count + 1
         return piece_count
+
+    def __str__(self):
+        #define a string function for a given space to print what the space looks like
+        if not len(self.stored_pieces):
+            #there are no pieces here; return it's board symbol with spaces
+            return " {} ".format(self.board_symbol)
+        else:
+            #exit spaces may potentially hold multiple pieces of each color; print how many there are of each
+            return "{}/{}".format(self.count_pieces(True), self.count_pieces(False))

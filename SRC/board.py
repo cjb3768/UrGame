@@ -158,40 +158,7 @@ class board_state:
             row_string = ""
             for j in range(9):
                 current_space = self.board[i][j]
-                #print the contents of a space
-                #check to see if there are any pieces on the board
-                if not current_space.stored_pieces:
-                    #no pieces on the space, add the space's board symbol to the printout
-                    row_string = row_string + " {} ".format(current_space.board_symbol)
-                else:
-                    #the space has at least one piece in it
-                    #if its an entry space, print how many pieces are still in it
-                    if current_space.space_type == space_type.ENTRY:
-                        row_string = row_string + " {} ".format(len(current_space.stored_pieces))
-                    #if its an exit space, print how many pieces are in it of each color (light/dark)
-                    elif current_space.space_type == space_type.EXIT:
-                        row_string = row_string + "{}/{}".format(current_space.count_pieces(True), current_space.count_pieces(False))
-                    #for any other space, check how many pieces there are
-                    else:
-                        if len(current_space.stored_pieces) == 1:
-                            #only one piece; determine it's color and state
-                            if current_space.stored_pieces[0].get_color():
-                                #light piece
-                                if current_space.stored_pieces[0].get_state():
-                                    #blank piece
-                                    row_string = row_string + " l "
-                                else:
-                                    #flipped piece
-                                    row_string = row_string + " L "
-                            else:
-                                #dark piece
-                                if current_space.stored_pieces[0].get_state():
-                                    #blank piece
-                                    row_string = row_string + " d "
-                                else:
-                                    #flipped piece
-                                    row_string = row_string + " D "
-
+                row_string = row_string + "{}".format(current_space)
 
                 #print the right edge of the space
                 if current_space.space_type == space_type.ENTRY:
