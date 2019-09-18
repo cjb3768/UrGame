@@ -194,11 +194,11 @@ class board_state:
         for i in range(3):
             row_string = ""
             for j in range(9):
-                current_space = self.board[i][j]
-                row_string = row_string + "{}".format(current_space)
+                #print a given space
+                row_string = row_string + "{}".format(self.board[i][j])
 
                 #print the right edge of the space
-                if current_space.space_type == space_type.ENTRY:
+                if self.board[i][j].space_type == space_type.ENTRY:
                     row_string = row_string + " "
                 else:
                     row_string = row_string + "|"
