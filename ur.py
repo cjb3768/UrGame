@@ -1,6 +1,6 @@
 import logging
 import sys
-from SRC import board
+from src import board
 
 ####################
 # Global variables #

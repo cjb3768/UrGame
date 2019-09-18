@@ -1,13 +1,13 @@
 import logging
 from enum import Enum, unique, auto
 import sys
-from SRC.SPACES.board_space import *
-from SRC.SPACES.entry_space import *
-from SRC.SPACES.exit_space import *
-from SRC.SPACES.unmarked_space import *
-from SRC.SPACES.rosette_space import *
-from SRC.SPACES.conversion_space import *
-from SRC.SPACES.null_space import *
+from src.spaces.board_space import *
+from src.spaces.entry_space import *
+from src.spaces.exit_space import *
+from src.spaces.unmarked_space import *
+from src.spaces.rosette_space import *
+from src.spaces.conversion_space import *
+from src.spaces.null_space import *
 
 
 ####################
@@ -52,10 +52,10 @@ class board_flags:
 
 
 class board_state:
-    def __init__(self):
+    def __init__(self, board=[[0 for j in range(9)] for i in range(3)], flags=board_flags()):
         #instantiate our 3x9 array of board_spaces; we will actually fill it with board_space data later
-        self.board = [[0 for j in range(9)] for i in range(3)]
-        self.flags = board_flags()
+        self.board = board
+        self.flags = flags
 
     def set_board_space(self, row, column, space):
         self.board[row][column] = space
@@ -115,15 +115,14 @@ class board_state:
                 if self.board[i][j] == 0:
                     self.set_board_space(i, j, unmarked_space((i,j)))
 
-
     def construct_path(self, pt):
         try:
             if path_type(pt) == path_type.SIMPLE:
-                path_file = open("SRC/simple.txt","r")
+                path_file = open("src/simple.txt","r")
             elif path_type(pt) == path_type.MEDIUM:
-                path_file = open("SRC/medium.txt","r")
+                path_file = open("src/medium.txt","r")
             elif path_type(pt) == path_type.ADVANCED:
-                path_file = open("SRC/advanced.txt","r")
+                path_file = open("src/advanced.txt","r")
             else:
                 pass
         except Exception as e:
@@ -141,8 +140,7 @@ class board_state:
         except Exception as e:
             logger.error("While trying to load a path from file an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
-            return            
-
+            return
 
     def print_board(self):
         print("Current board path type is {}".format(self.flags.path_type.name))
