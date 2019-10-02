@@ -336,16 +336,25 @@ class board_state:
             print(path_string)
             path_string = ""
 
-    def test_piece_movement(self, row, column, piece_color, dice_score):
-        #get the piece at space(row,column)
+    def test_piece_movement(self, piece, dice_score):
+        #find the space that corresponds to the passed in piece's current location
+        test_space = self.board[piece.current_row][piece.current_column]
         #for dice_score-1 spaces ahead
-            #check to see if the piece can advance
-                #if false, return false
-        #check dice_score'th space ahead of piece to see if it can land
-            #if false, check to see if it can capture
-                #if false, return False
-                #else return true
-            #else return true
+        for i in range(dice_score):
+            #check to see if the piece is allowed to advance
+            if test_space.test_advancement(piece):
+                #piece can advance; check next space
+                test_space = test_space.get_next_space(piece)
+            else:
+                return False
+        #If we've reached this point, the piece has been allowed to advance up dice_score spaces; now test if it can be placed there
+        if test_space.test_placement(piece):
+            logger.debug("Placement allowed!")
+            return True
+        else:
+            #if false, return whether the piece could capture if it landed
+            logger.debug("Is capture allowed? : {}".format(test_space.test_capture(piece)))
+            return test_space.test_capture(piece)
         pass
 
     def advance_piece(self, destination_row, destination_column, piece):
