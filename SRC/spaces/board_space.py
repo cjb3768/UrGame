@@ -1,5 +1,6 @@
 import logging
 from enum import Enum, unique, auto
+from src.piece import *
 
 ####################
 # Global variables #
@@ -17,43 +18,6 @@ class space_type(Enum):
     FOURSQUARES = 6
     CONVERSION = 7
     NULLSPACE = 8
-
-class piece_type:
-    def __init__(self, is_light, is_blank, board_pos):
-        self.color = is_light
-        self.state = is_blank
-        self.must_convert = False
-        self.current_row = board_pos[0] #this will let pieces know where they are
-        self.current_column = board_pos[1]
-
-    def get_color(self):
-        return self.color #returns true if this is a light piece and false if this is a dark piece
-
-    def get_state(self):
-        return self.state #returns true if blank, false if flipped
-
-    def change_state(self):
-        #flip the piece
-        self.state = not self.state
-
-    def needs_converting(self):
-        return self.must_convert #a piece must convert if it has passed, but has not landed on, a conversion space, and attempts to pass another
-
-    def passed_conversion_space(self):
-        self.must_convert = True
-
-    def __str__(self):
-        #return a symbol based on the color and state of the piece
-        if self.get_color():
-            if self.get_state():
-                return "l"
-            else:
-                return "L"
-        else:
-            if self.get_state():
-                return "d"
-            else:
-                return "D"
 
 class board_space:
     def __init__(self, space_type, board_symbol, board_position):

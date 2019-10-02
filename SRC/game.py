@@ -34,13 +34,13 @@ class game_class:
 
         #for piece movement testing, load some extra pieces into board to test test_piece_movement
         first_light_rosette = piece_type(True,True,(0,1))
-        logger.debug("Adding light piece at ({},{})".format(first_light_rosette.current_row, first_light_rosette.current_column))
+        logger.debug("Adding light piece at ({},{})".format(first_light_rosette.row, first_light_rosette.column))
         self.board_state.board[0][1].stored_pieces.append(first_light_rosette)
         middle_rosette = piece_type(True,True,(1,4))
-        logger.debug("Adding light piece at ({},{})".format(middle_rosette.current_row, middle_rosette.current_column))
+        logger.debug("Adding light piece at ({},{})".format(middle_rosette.row, middle_rosette.column))
         self.board_state.board[1][4].stored_pieces.append(middle_rosette)
         dark_piece = piece_type(False,True,(1,2))
-        logger.debug("Adding dark piece at ({},{})".format(dark_piece.current_row, dark_piece.current_column))
+        logger.debug("Adding dark piece at ({},{})".format(dark_piece.row, dark_piece.column))
         self.board_state.board[1][2].stored_pieces.append(dark_piece)
 
         #verify that first_light_rosette cannot move to the middle rosette

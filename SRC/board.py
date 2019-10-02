@@ -8,6 +8,7 @@ from src.spaces.unmarked_space import *
 from src.spaces.rosette_space import *
 from src.spaces.conversion_space import *
 from src.spaces.null_space import *
+from src.piece import *
 
 
 ####################
@@ -338,7 +339,7 @@ class board_state:
 
     def test_piece_movement(self, piece, dice_score):
         #find the space that corresponds to the passed in piece's current location
-        test_space = self.board[piece.current_row][piece.current_column]
+        test_space = self.board[piece.row][piece.column]
         #for dice_score-1 spaces ahead
         for i in range(dice_score):
             #check to see if the piece is allowed to advance
