@@ -19,10 +19,12 @@ class space_type(Enum):
     NULLSPACE = 8
 
 class piece_type:
-    def __init__(self, is_light, is_blank):
+    def __init__(self, is_light, is_blank, board_pos):
         self.color = is_light
         self.state = is_blank
         self.must_convert = False
+        self.current_row = board_pos[0] #this will let pieces know where they are
+        self.current_column = board_pos[1]
 
     def get_color(self):
         return self.color #returns true if this is a light piece and false if this is a dark piece
@@ -120,6 +122,9 @@ class board_space:
             logger.error("While trying to traverse the path, an exception of type {} has occurred".format(type(e).__name__))
             logger.error(e)
             return false
+
+    def get_board_position(self):
+        return self.board_position
 
     def test_advancement(self, piece):
         """Verify whether or not a piece can advance beyond this space."""

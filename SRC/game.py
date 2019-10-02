@@ -25,8 +25,12 @@ class game_class:
         self.board_state.construct_path()
         #load starting points with num_pieces blank pieces
         for i in range(self.flags.num_pieces):
-            self.board_state.get_player_entry(True).stored_pieces.append(piece_type(True,True))
-            self.board_state.get_player_entry(False).stored_pieces.append(piece_type(False,True))
+            #create blank pieces and store them in the board_state's piece lists
+            self.board_state.light_piece_list.append(piece_type(True,True,self.board_state.get_player_entry(True).get_board_position()))
+            self.board_state.dark_piece_list.append(piece_type(False,True,self.board_state.get_player_entry(False).get_board_position()))
+            #append the pieces to the starting space's stored_pieces list
+            self.board_state.get_player_entry(True).stored_pieces.append(self.board_state.light_piece_list[-1])
+            self.board_state.get_player_entry(False).stored_pieces.append(self.board_state.dark_piece_list[-1])
 
         # #for print testing purposes, load pieces into other board_spaces
         # #testing exit spaces

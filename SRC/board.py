@@ -335,3 +335,31 @@ class board_state:
             print("Flipped Path")
             print(path_string)
             path_string = ""
+
+    def test_piece_movement(self, row, column, piece_color, dice_score):
+        #get the piece at space(row,column)
+        #for dice_score-1 spaces ahead
+            #check to see if the piece can advance
+                #if false, return false
+        #check dice_score'th space ahead of piece to see if it can land
+            #if false, check to see if it can capture
+                #if false, return False
+                #else return true
+            #else return true
+        pass
+
+    def advance_piece(self, destination_row, destination_column, piece):
+        #check to see whether or not a piece can be captured
+            #if true, capture piece and place
+            #else, place piece
+        pass
+
+    def evaluate_board(self, path_color):
+        #determine the value of a current board based on a number of heuristics
+        #heuristics to consider -
+            #Number of pieces on one side yet to enter the board
+            #Number of pieces on one side that have left the board
+            #Whether or not a player is in position to capture a piece (can be scaled by the probability of rolling the die and landing there)
+            #Whether or not a player may take and hold a rosette (as a rosette gives an extra turn)
+            #Possibly more
+        pass
