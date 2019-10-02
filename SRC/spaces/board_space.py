@@ -124,24 +124,22 @@ class board_space:
             #there should only ever be one piece in a generic space
             return " {} ".format(self.stored_pieces[0])
 
+    def place_piece(self, piece):
+        """Place a piece in the space as part of a move"""
+        self.stored_pieces.append(piece)
 
+    def remove_piece(self, piece):
+        """Remove a piece from a space as part of a move"""
+        #check to see if a matching piece exists in the space and then remove it
+        try:
+            self.stored_pieces.remove(piece)
+            return True
+        except Exception as e:
+            logger.error("While attempting to remove a piece, an exception of type {} has occurred".format(type(e).__name__))
+            logger.error(e)
+            return False
 
-
-    # def place_piece(self, piece):
-    #     """Place a piece in the space as part of a move"""
-    #     self.stored_pieces.append(piece)
-
-    # def remove_piece(self, piece):
-    #     """Remove a piece from the space as part of a move"""
-    #     #check to see if a matching piece exists in the space and then remove it
-    #     try:
-    #         self.stored_pieces.remove(piece)
-    #         return true
-    #     except Exception as e:
-    #         logger.error("While attempting to remove a piece, an exception of type {} has occurred".format(type(e).__name__))
-    #         return false
-
-    # def capture_opposite_piece(self,piece):
+    # def capture_piece(self, piece):
     #     """Remove an opposing piece from the space as part of a move"""
     #     #remove a piece of the opposite color of the current piece if one exists
     #     try:

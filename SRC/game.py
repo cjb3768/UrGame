@@ -47,9 +47,17 @@ class game_class:
         #logger.debug("Can first light rosette move 4 spaces to middle rosette? : {}".format(self.board_state.test_piece_movement(first_light_rosette,4))) #should be False
         #verify that first_light_rosette can move to a blank space
         #logger.debug("Can first light rosette move 3 spaces ahead? : {}".format(self.board_state.test_piece_movement(first_light_rosette,3))) #should be True
-        #verify that first_light_rosette can capture dark piece
-        #logger.debug("Can first light rosette capture dark piece? : {}".format(self.board_state.test_piece_movement(first_light_rosette,2))) #should be True
+        # #test movement
+        # logger.debug("light_rosette's current position : ({},{})".format(first_light_rosette.row,self.board_state.board[0][1].stored_pieces[0].column)) #should be (0,1)
+        # self.board_state.advance_piece(first_light_rosette,3)
+        # logger.debug("light_rosette's current position : ({},{})".format(self.board_state.board[1][3].stored_pieces[0].row, first_light_rosette.column)) #should be (1,3)
 
+        #verify that first_light_rosette can capture dark piece
+        logger.debug("Can first light rosette capture dark piece? : {}".format(self.board_state.test_piece_movement(first_light_rosette,2))) #should be True
+        #test capture
+        logger.debug("light_rosette's current position : ({},{})".format(first_light_rosette.row,self.board_state.board[0][1].stored_pieces[0].column)) #should be (0,1)
+        self.board_state.advance_piece(first_light_rosette,2)
+        logger.debug("light_rosette's current position : ({},{})".format(self.board_state.board[1][2].stored_pieces[0].row, first_light_rosette.column)) #should be (1,2)
 
         # #for print testing purposes, load pieces into other board_spaces
         # #testing exit spaces

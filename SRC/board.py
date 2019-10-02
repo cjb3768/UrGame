@@ -358,11 +358,35 @@ class board_state:
             return test_space.test_capture(piece)
         pass
 
-    def advance_piece(self, destination_row, destination_column, piece):
+    def capture_opponent(self, piece, destination):
+        #remove an opposing piece from destination; will remove either the last added of the pieces, or a flipped one, whichever comes first
+        for stored_piece in destination.stored_pieces:
+            if stored_piece.get_color() != piece.get_color():
+                piece_to_capture = stored_piece
+                if piece_to_capture.get_state() == False:
+                    break
+        #remove piece from space
+        destination.remove_piece(piece_to_capture)
+        #TODO: reset captured piece's position to starting point, add back to starting point, update value in overall piece list
+
+    def advance_piece(self, piece, dice_score):
+        old_space = self.board[piece.row][piece.column]
+        destination = old_space
+        for i in range(dice_score):
+            destination = destination.get_next_space(piece)
+
         #check to see whether or not a piece can be captured
-            #if true, capture piece and place
-            #else, place piece
-        pass
+        if destination.test_capture(piece):
+            #if true, capture piece
+            #todo: if we do implement multiple shared piece spots, update capture function to prioritize taking flipped pieces
+            self.capture_opponent(piece, destination)
+
+        #remove piece from old space
+        old_space.remove_piece(piece)
+        #add piece to destination
+        destination.place_piece(piece)
+        #update piece's current position
+        piece.update_position(destination.board_position) #todo; consider renaming board_position to board_coordinates
 
     def evaluate_board(self, path_color):
         #determine the value of a current board based on a number of heuristics
